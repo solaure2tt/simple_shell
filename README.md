@@ -1,7 +1,11 @@
 # simple_shell
+
+## Description
 In this project, we will create own own shell
-#Compilation
+
+## How to compile
 gcc -Wall -Wextra -Werror -pedantic *.c -o shell
-#Execution
+
+## How to execute
 ./shell
 When the prompt apears, enter your command followed by a new line
