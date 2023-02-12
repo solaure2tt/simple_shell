@@ -1,7 +1,7 @@
 # simple_shell
 
 ## Description
-In this project, we will create own own shell
+In this project, we will write a simple UNIX command interpreter.
 
 ## How to compile
 gcc -Wall -Wextra -Werror -pedantic *.c -o shell
