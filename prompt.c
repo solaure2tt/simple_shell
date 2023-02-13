@@ -19,8 +19,9 @@ int _prompt(char *inst[])
 	size_t len = 0;
 	FILE *f = stdin;
 	ssize_t read;
+	char *pt = "#cisfun$ ";
 
-	printf("#cisfun$ ");
+	write(STDIN_FILENO, pt, strlen(pt));
 	read = getline(&line, &len, f);
 	if (read != -1)
 	{
