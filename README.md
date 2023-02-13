@@ -4,8 +4,8 @@
 In this project, we will write a simple UNIX command interpreter.
 
 ## How to compile
-gcc -Wall -Wextra -Werror -pedantic *.c -o shell
+gcc -Wall -Wextra -Werror -pedantic *.c -o ./test/shell
 
 ## How to execute
-./shell
+./test/shell
 When the prompt apears, enter your command followed by a new line
