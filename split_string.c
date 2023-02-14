@@ -7,22 +7,23 @@
  * Description: function that splits a string
  * @str: string to split
  * @words: words of str
+ * @sep: the separator string
  * Return: number of words
  */
 
-int split_str(char **words, char *str)
+int split_str(char **words, char *str, char *sep)
 {
 	int i = 0;
 	char *first;
 
 	if (str != NULL)
 	{
-		first = strtok(str, " ");
+		first = strtok(str, sep);
 		while (first != NULL)
 		{
 			words[i] = malloc(sizeof(char) * strlen(first));
 			strcpy(words[i], first);
-			first = strtok(NULL, " ");
+			first = strtok(NULL, sep);
 			i++;
 		}
 		words[i] = first;

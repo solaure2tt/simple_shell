@@ -27,7 +27,7 @@ int _prompt(char *inst[])
 	{
 		if (line[read - 1] == '\n')
 			line[read - 1] = '\0';
-		split_str(inst, line);
+		split_str(inst, line, " ");
 	}
 	return (read);
 }
