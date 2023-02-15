@@ -28,14 +28,14 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 	{
 		n = _prompt(inst);
 		if (n == -1)
-			break;
+			exit(0);
 		path_value = locate_file(inst[0],
 				strcpy(all_path_value_copy, all_path_value));
 		if (path_value == NULL)
 		{
 			perror(av[0]);
 			continue;
-		} 
+		}
 		pid = fork();
 		if (pid == -1)
 		{
