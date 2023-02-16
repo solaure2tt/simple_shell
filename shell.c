@@ -17,18 +17,20 @@
  */
 int main(int __attribute((unused)) ac, char *av[], char *env[])
 {
-	char *inst[50];
+	char *inst[100], *path_value, all_path_value_copy[200];
 	pid_t pid;
-	int status, __attribute((unused)) n;
+	int status, __attribute((unused)) n, checkexit;
 	char *all_path_value = get_env_var_value("PATH=", env);
-	char all_path_value_copy[200];
-	char *path_value = NULL;
 
 	while (1)
 	{
-		n = _prompt(inst);
-		if (n == -1)
+		if ((_prompt(inst)) == -1)
 			exit(0);
+		checkexit = exitshell(inst);
+		if (checkexit != -1)
+		{
+			exit(checkexit);
+		}
 		path_value = locate_file(inst[0],
 				strcpy(all_path_value_copy, all_path_value));
 		if (path_value == NULL)
