@@ -20,7 +20,7 @@ int splitcmdcoma(char *cmd[])
 	FILE *f = stdin;
 	ssize_t read;
 	int x;
-	char *pt = "#cisfun$ ";
+	char *pt = "$ ";
 
 	write(STDIN_FILENO, pt, strlen(pt));
 	read = getline(&line, &len, f);
