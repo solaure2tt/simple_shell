@@ -10,7 +10,7 @@
 /**
  * exitshell - exit of the shell
  * Description: function to exit from the shell
- * @cmd: shell command
+ * @command: shell command
  * Return: status exit
  */
 int exitshell(char *command[])
