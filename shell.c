@@ -48,7 +48,6 @@ int _pidfork(char *a, char *pa, char *in[], char *e[])
 	int n = 0;
 	pid_t pid;
 
-	a = "ppppppp";
 	pid = fork();
 	if (pid == -1)
 	{
@@ -100,7 +99,7 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 				strcpy(all_path_value_copy, all_path_value));
 			if (path_value == NULL)
 			{
-				perror(av[0]);
+				_perror(av[0], inst[0]);
 			}
 			else
 			{
