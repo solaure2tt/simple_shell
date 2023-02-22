@@ -20,7 +20,7 @@ int splitcmdcoma(char *cmd[])
 	FILE *f = stdin;
 	ssize_t read;
 	int x;
-	char *pt = "($)";
+	char *pt = "($) ";
 
 	write(STDIN_FILENO, pt, strlen(pt));
 	read = getline(&line, &len, f);
@@ -48,6 +48,7 @@ int _pidfork(char *a, char *pa, char *in[], char *e[])
 	int n = 0;
 	pid_t pid;
 
+	a = "ppppppp";
 	pid = fork();
 	if (pid == -1)
 	{
