@@ -23,10 +23,10 @@ int _prompt(char *inst[])
 
 	write(STDIN_FILENO, pt, strlen(pt));
 	read = getline(&line, &len, f);
-	/*if (strcmp(line, "exit\n") == 0)
+	if (strcmp(line, "exit\n") == 0)
 	{
 		return (-1);
-	}*/
+	}
 	if (read != -1)
 	{
 		if (line[read - 1] == '\n')
