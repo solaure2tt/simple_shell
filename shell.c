@@ -26,10 +26,14 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 	{
 		inst = malloc(sizeof(char*) * 4);
 		if ((_prompt(inst)) == -1)
+		{
+			free(inst);
 			exit(0);
+		}
 		checkexit = exitshell(inst);
 		if (checkexit != -1)
 		{
+			free(inst);
 			exit(checkexit);
 		}
 		path_value = locate_file(inst[0],
@@ -43,7 +47,7 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 		if (pid == -1)
 		{
 			perror(av[0]);
-			return (1);
+			exit (1);
 		}
 		else if (pid == 0)
 		{
@@ -51,12 +55,12 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 			if (n == -1)
 			{
 				perror(av[0]);
-				return (1);
+				exit (1);
 			}
 		}
 		else
 			wait(&status);
 		free(inst);
 	}
-	return (0);
+	exit (0);
 }
