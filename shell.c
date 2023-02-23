@@ -37,7 +37,7 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 			exit(checkexit);
 		}
 		path_value = locate_file(inst[0],
-				strcpy(all_path_value_copy, all_path_value));
+				_strcpy(all_path_value_copy, all_path_value));
 		if (path_value == NULL)
 		{
 			perror(av[0]);
