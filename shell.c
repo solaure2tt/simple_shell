@@ -76,7 +76,7 @@ int _pidfork(char *a, char *pa, char *in[], char *e[])
  */
 int main(int __attribute((unused)) ac, char *av[], char *env[])
 {
-	char *inst[100], *inst1[200], *path_value, all_path_value_copy[200];
+	char *inst[100], *inst1[100], *path_value, all_path_value_copy[200];
 	int  status, __attribute((unused)) n, pi,  checkexit, nbc, i = 0;
 	char *all_path_value = get_env_var_value("PATH=", env);
 
@@ -108,6 +108,7 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 					return (pi);
 				wait(&status);
 			}
+			inst1[i] = NULL;
 			i++;
 		}
 	}
