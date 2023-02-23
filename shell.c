@@ -41,12 +41,14 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 		if (path_value == NULL)
 		{
 			perror(av[0]);
+			free(inst);
 			continue;
 		}
 		pid = fork();
 		if (pid == -1)
 		{
 			perror(av[0]);
+			free(inst);
 			exit (1);
 		}
 		else if (pid == 0)
@@ -54,6 +56,7 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 			n = execve(path_value, inst, env);
 			if (n == -1)
 			{
+				free(inst);
 				perror(av[0]);
 				exit (1);
 			}
