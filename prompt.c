@@ -19,14 +19,14 @@ int _prompt(char *inst[])
 	size_t len = 0;
 	FILE *f = stdin;
 	ssize_t read;
-	char *pt = "#cisfun$ ";
+	char *pt = "($) ";
 
 	write(STDIN_FILENO, pt, strlen(pt));
 	read = getline(&line, &len, f);
-	if (strcmp(line, "exit\n") == 0)
+	/*if (strcmp(line, "exit\n") == 0)
 	{
 		return (-1);
-	}
+	}*/
 	if (read != -1)
 	{
 		if (line[read - 1] == '\n')
