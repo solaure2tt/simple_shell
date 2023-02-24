@@ -1,55 +1,97 @@
 #include "main.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stddef.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 /**
- * show_prompt - other case conversion specifier
- * @prompt: no paremeter to convert
- * Return: nothing
+ * _strcpy - copies a string
+ * @dest: the destination
+ * @src: the source
+ *
+ * Return: pointer to destination
  */
-void show_prompt(char *prompt)
+char *_strcpy(char *dest, char *src)
 {
-	char *default_prompt = "($) ";
+	int i = 0;
 
-	if (prompt == NULL)
-		write(STDOUT_FILENO, default_prompt, strlen(default_prompt));
-	else
+	if (dest == src || src == 0)
+		return (dest);
+	while (src[i])
 	{
-		write(STDOUT_FILENO, prompt, strlen(prompt));
+		dest[i] = src[i];
+		i++;
 	}
+	dest[i] = 0;
+	return (dest);
 }
 
 /**
- * read_command - get the entire command line
- * Return: the command line
+ * _strlen - returns the length of a string
+ * @s: the string whose length to check
+ *
+ * Return: integer length of string
  */
-char *read_command(void)
+int _strlen(char *s)
 {
-	FILE *f = stdin;
-	size_t len = 0;
-	char *line = NULL;
-	ssize_t read;
+	int i = 0;
 
+	if (!s)
+		return (0);
+
+	while (*s++)
+		i++;
+	return (i);
+}
+
+/**
+ * _strcmp - performs lexicogarphic comparison of two strangs.
+ * @s1: the first strang
+ * @s2: the second strang
+ *
+ * Return: negative if s1 < s2, positive if s1 > s2, zero if s1 == s2
+ */
+int _strcmp(char *s1, char *s2)
+{
+	while (*s1 && *s2)
+	{
+		if (*s1 != *s2)
+			return (*s1 - *s2);
+		s1++;
+		s2++;
+	}
+	if (*s1 == *s2)
+		return (0);
+	else
+		return (*s1 < *s2 ? -1 : 1);
+}
+/**
+ * _prompt - prompt of the shell
+ * Description: create a prompt, wait for the user to enter a command
+ * @inst: parameters of the command entered
+ * Return: number of charcters read on stream
+ */
+int _prompt(char *inst[])
+{
+	char *line = NULL;
+	size_t len = 0;
+	FILE *f = stdin;
+	ssize_t read;
+	char *pt = "($) ";
+
+	write(STDIN_FILENO, pt, strlen(pt));
 	read = getline(&line, &len, f);
+	if (_strcmp(line, "exit\n") == 0)
+	{
+		return (-1);
+	}
 	if (read != -1)
 	{
-		/*
-		 * delete spaces before the command
-		 */
-		while (line[0] == ' ')
-		{
-			line = line + 1;
-			read--;
-		}
-		/*
-		 * delete spaces or \n character after the command
-		 */
-		while (line[read - 1] == ' ' || line[read - 1] == '\n')
-		{
-			line[read - 1] = '\0';
-			read = read - 1;
-		}
 		if (line[read - 1] == '\n')
 			line[read - 1] = '\0';
-		return (line);
+		split_str(inst, line, " ");
 	}
-	else
-		return (NULL);
+	return (read);
 }

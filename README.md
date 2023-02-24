@@ -1,11 +1,11 @@
-# printf
-## This repository is to create our own printf function in C
+# simple_shell
 
-## Compile 
-```
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c  -o test/shell
-```
+## Description
+In this project, we will write a simple UNIX command interpreter.
 
-## Run the main test
-```
+## How to compile
+gcc -Wall -Wextra -Werror -pedantic *.c -o ./test/shell
+
+## How to execute
 ./test/shell
+When the prompt apears, enter your command followed by a new line
