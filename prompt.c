@@ -18,13 +18,13 @@ void show_prompt(char *prompt)
 
 /**
  * read_command - get the entire command line
+ * @line: d
  * Return: the command line
  */
-char *read_command(void)
+char *read_command(char *line)
 {
 	FILE *f = stdin;
 	size_t len = 0;
-	char *line = NULL;
 	ssize_t read;
 
 	read = getline(&line, &len, f);

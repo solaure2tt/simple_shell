@@ -10,5 +10,5 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 void show_prompt(char *prompt);
-char *read_command(void);
+char *read_command(char *line);
 #endif

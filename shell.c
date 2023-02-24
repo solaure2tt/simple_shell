@@ -14,15 +14,17 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 	char *inst[2];
 	pid_t pid;
 	int status, __attribute((unused)) n;
-	char *command;
+	char *command_space = malloc(200 * sizeof(char));
+	char *command = NULL;
 
 	while (1)
 	{
 		show_prompt("($) ");
-		command = read_command();
+		command = command_space;
+		command = read_command(command);
 		if (command == NULL)
 			break;
-		if(command[0] == '\0')
+		if (command[0] == '\0')
 			continue;
 
 		pid = fork();
@@ -45,5 +47,6 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 		else
 			wait(&status);
 	}
+	free(command_space);
 	return (0);
 }
