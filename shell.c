@@ -24,7 +24,7 @@ int _pidfork1(char *av0, char **in, char **e)
 	if (pid == -1)
 	{
 		perror(av0);
-		for (i = 0; i < 2; i++)
+		for (i = 0; i < 1; i++)
 			free(in[i]);
 		free(in);
 		return (1);
@@ -34,7 +34,7 @@ int _pidfork1(char *av0, char **in, char **e)
 		n = execve(in[0], in, e);
 		if (n == -1)
 		{
-			for (i = 0; i < 2; i++)
+			for (i = 0; i < 1; i++)
 				free(in[i]);
 			free(in);
 			perror(av0);
@@ -43,7 +43,7 @@ int _pidfork1(char *av0, char **in, char **e)
 	}
 	else
 		wait(&status);
-	for (i = 0 ; i < 2; i++)
+	for (i = 0 ; i < 1; i++)
 		free(in[i]);
 	free(in);
 	return (0);
@@ -59,51 +59,34 @@ int _pidfork1(char *av0, char **in, char **e)
 int main(int __attribute((unused)) ac, char *av[], char *env[])
 {
 	char **inst;
-	int i, status, __attribute((unused)) n;
+	int  __attribute((unused)) n, pi;
 	char *line = NULL;
 	size_t len = 0;
 	FILE *f = stdin;
 	ssize_t read;
 	char *pt = "($) ";
-	pid_t pid;
 
 	while (1)
 	{
 		write(STDIN_FILENO, pt, strlen(pt));
 		read = getline(&line, &len, f);
 		if ( read == -1)
+		{
+			free(line);
 			exit(0);
+		}
 		if (line[read - 1] == '\n')
 			line[read - 1] = '\0';
 		inst = malloc(sizeof(char *) * 2);
 		inst[0] = strsep(&line, " ");
 		inst[1] = NULL;
-		pid = fork();
-		if (pid == -1)
+		pi = _pidfork1(av[0], inst, env);
+		if (pi == 1)
 		{
-			perror(av[0]);
-			for (i = 0; i < 2; i++)
-				free(inst[i]);
-			free(inst);
+			free(line);
 			exit(1);
 		}
-		else if (pid == 0)
-		{
-			n = execve(inst[0], inst, env);
-			if (n == -1)
-			{
-				for (i = 0; i < 2; i++)
-					free(inst[i]);
-				free(inst);
-				perror(av[0]);
-				exit(1);
-			}
-		}
-		else
-			wait(&status);
-		for (i = 0 ; i < 2; i++)
-			free(inst[i]);
-		free(inst);
+		free(line);
 	}
 	exit (0);
 }
