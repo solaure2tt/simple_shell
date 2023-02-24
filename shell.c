@@ -58,26 +58,52 @@ int _pidfork1(char *av0, char **in, char **e)
  */
 int main(int __attribute((unused)) ac, char *av[], char *env[])
 {
-	char **inst = NULL;
-	int pi, __attribute((unused)) n;
+	char **inst;
+	int i, status, __attribute((unused)) n;
+	char *line = NULL;
+	size_t len = 0;
+	FILE *f = stdin;
+	ssize_t read;
+	char *pt = "($) ";
+	pid_t pid;
 
 	while (1)
 	{
-		inst = malloc(sizeof(char*) * 2);
-		n = _prompt(inst);
-		if (  n == 0)
-		{
-			free(inst);
+		write(STDIN_FILENO, pt, strlen(pt));
+		read = getline(&line, &len, f);
+		if ( read == -1)
 			exit(0);
-		}
-		if ( n == -1)
+		if (line[read - 1] == '\n')
+			line[read - 1] = '\0';
+		inst = malloc(sizeof(char *) * 2);
+		inst[0] = strsep(&line, " ");
+		inst[1] = NULL;
+		pid = fork();
+		if (pid == -1)
 		{
+			perror(av[0]);
+			for (i = 0; i < 2; i++)
+				free(inst[i]);
 			free(inst);
-			return (1);
+			exit(1);
 		}
-		pi = _pidfork1(av[0], inst, env);
-		if (pi == 1)
-			exit (1);
+		else if (pid == 0)
+		{
+			n = execve(inst[0], inst, env);
+			if (n == -1)
+			{
+				for (i = 0; i < 2; i++)
+					free(inst[i]);
+				free(inst);
+				perror(av[0]);
+				exit(1);
+			}
+		}
+		else
+			wait(&status);
+		for (i = 0 ; i < 2; i++)
+			free(inst[i]);
+		free(inst);
 	}
 	exit (0);
 }
