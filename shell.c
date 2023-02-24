@@ -31,6 +31,7 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 		if (pid == -1)
 		{
 			perror(av[0]);
+			free(command_space);
 			return (1);
 		}
 		else if (pid == 0)
@@ -41,8 +42,11 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 			if (n == -1)
 			{
 				perror(av[0]);
+				free(command_space);
 				return (1);
 			}
+			free(command_space);
+			return (0);
 		}
 		else
 			wait(&status);
