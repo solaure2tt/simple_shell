@@ -83,15 +83,16 @@ int _prompt(char *inst[])
 
 	write(STDIN_FILENO, pt, strlen(pt));
 	read = getline(&line, &len, f);
-	if (_strcmp(line, "exit\n") == 0)
+	if ( read == -1)
 	{
-		return (-1);
+		return (0);
 	}
 	if (read != -1)
 	{
 		if (line[read - 1] == '\n')
 			line[read - 1] = '\0';
-		split_str(inst, line, " ");
+		inst[0] = strsep(&line, " ");
+		inst[1] = NULL;
 	}
 	return (read);
 }

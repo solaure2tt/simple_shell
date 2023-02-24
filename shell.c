@@ -15,23 +15,27 @@
  * @e: environment
  * Return: number
  */
-int _pidfork1(char *av0, char *p, char **in, char **e)
+int _pidfork1(char *av0, char **in, char **e)
 {
 	pid_t pid;
-	int n, status;
+	int n, status, i;
 
 	pid = fork();
 	if (pid == -1)
 	{
 		perror(av0);
+		for (i = 0; i < 2; i++)
+			free(in[i]);
 		free(in);
 		return (1);
 	}
 	else if (pid == 0)
 	{
-		n = execve(p, in, e);
+		n = execve(in[0], in, e);
 		if (n == -1)
 		{
+			for (i = 0; i < 2; i++)
+				free(in[i]);
 			free(in);
 			perror(av0);
 			return (1);
@@ -39,6 +43,8 @@ int _pidfork1(char *av0, char *p, char **in, char **e)
 	}
 	else
 		wait(&status);
+	for (i = 0 ; i < 2; i++)
+		free(in[i]);
 	free(in);
 	return (0);
 }
@@ -52,29 +58,26 @@ int _pidfork1(char *av0, char *p, char **in, char **e)
  */
 int main(int __attribute((unused)) ac, char *av[], char *env[])
 {
-	char **inst, *path_value, all_path_value_copy[200];
+	char **inst = NULL;
 	int pi, __attribute((unused)) n;
-	char *all_path_value = get_env_var_value("PATH=", env);
 
 	while (1)
 	{
-		inst = malloc(sizeof(char *) * 4);
-		if ((_prompt(inst)) == -1)
+		inst = malloc(sizeof(char*) * 2);
+		n = _prompt(inst);
+		if (  n == 0)
 		{
 			free(inst);
 			exit(0);
 		}
-		path_value = locate_file(inst[0],
-				_strcpy(all_path_value_copy, all_path_value));
-		if (path_value == NULL)
+		if ( n == -1)
 		{
-			perror(av[0]);
 			free(inst);
-			continue;
+			return (1);
 		}
-		pi = _pidfork1(av[0], path_value, inst, env);
+		pi = _pidfork1(av[0], inst, env);
 		if (pi == 1)
-			exit(1);
+			exit (1);
 	}
-	exit(0);
+	exit (0);
 }
