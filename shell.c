@@ -53,7 +53,7 @@ int _pidfork1(char *av0, char *p, char **in, char **e)
 int main(int __attribute((unused)) ac, char *av[], char *env[])
 {
 	char **inst, *path_value, all_path_value_copy[200];
-	int pi, __attribute((unused)) n, checkexit;
+	int pi, __attribute((unused)) n;
 	char *all_path_value = get_env_var_value("PATH=", env);
 
 	while (1)
@@ -63,12 +63,6 @@ int main(int __attribute((unused)) ac, char *av[], char *env[])
 		{
 			free(inst);
 			exit(0);
-		}
-		checkexit = exitshell(inst);
-		if (checkexit != -1)
-		{
-			free(inst);
-			exit(checkexit);
 		}
 		path_value = locate_file(inst[0],
 				_strcpy(all_path_value_copy, all_path_value));
