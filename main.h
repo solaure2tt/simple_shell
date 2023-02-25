@@ -9,6 +9,7 @@ int _prompt(char *inst[]);
 char *locate_file(char *filename, char *path_value);
 int exitshell(char *command[]);
 int _pidfork(char *a, char *pa, char *in[], char *e[]);
+int _pidfork1(char *a, char *in[], char *e[]);
 int splitcmdcoma(char *cmd[]);
 void _perror(char *shell, char *command);
 #endif

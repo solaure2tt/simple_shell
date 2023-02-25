@@ -21,6 +21,7 @@ int split_str(char **words, char *str, char *sep)
 		first = strtok(str, sep);
 		while (first != NULL)
 		{
+			words[i] = malloc(sizeof(char) * strlen(first));
 			words[i] = first;
 			first = strtok(NULL, sep);
 			i++;
