@@ -10,7 +10,6 @@
  * _pidfork1 - new process
  * Description: create a new process
  * @av0: name of program
- * @p: path
  * @in: instructions
  * @e: environment
  * Return: number
